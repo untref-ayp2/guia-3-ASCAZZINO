@@ -11,6 +11,7 @@ import (
 type node[T any] struct {
 	value T
 	next  *node[T]
+	size  int
 }
 
 // newNode crea un nuevo nodo, con el valor recibido
@@ -68,6 +69,7 @@ func (l *LinkedList[T]) Prepend(value T) {
 // en la posición recibida.
 // Si la posición es inválida, no hace nada
 // O(n)
+// se lo cambia por un if y ya es O(n)
 func (l *LinkedList[T]) InsertAt(value T, position int) {
 	if position < 0 {
 		return
@@ -78,7 +80,7 @@ func (l *LinkedList[T]) InsertAt(value T, position int) {
 		return
 	}
 	current := l.head
-	for current != nil && position > 1 {
+	if current != nil && position > 1 {
 		current = current.next
 		position--
 	}
