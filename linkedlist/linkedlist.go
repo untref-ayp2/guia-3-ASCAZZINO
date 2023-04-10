@@ -25,8 +25,9 @@ func newNode[T comparable](value T) *node[T] {
 // LinkedList es la lista enlazada simple
 // contiene punteros al primer nodo y al último
 type LinkedList[T comparable] struct {
-	head *node[T] // puntero al primer nodo
-	tail *node[T] // puntero al último nodo
+	head  *node[T] // puntero al primer nodo
+	tail  *node[T] // puntero al último nodo
+	largo int
 }
 
 // NewLinkedList crea una nueva lista enlazada, vacía
@@ -49,6 +50,7 @@ func (l *LinkedList[T]) Append(value T) {
 	}
 	l.tail.next = newNode
 	l.tail = newNode
+
 }
 
 // Prepend agrega un nuevo nodo, con el valor recibido,
@@ -69,7 +71,7 @@ func (l *LinkedList[T]) Prepend(value T) {
 // en la posición recibida.
 // Si la posición es inválida, no hace nada
 // O(n)
-// se lo cambia por un if y ya es O(n)
+// se lo cambia por un if y ya es O(1)
 func (l *LinkedList[T]) InsertAt(value T, position int) {
 	if position < 0 {
 		return
@@ -89,11 +91,12 @@ func (l *LinkedList[T]) InsertAt(value T, position int) {
 	}
 	newNode.next = current.next
 	current.next = newNode
+	l.largo++
 }
 
 // Remove elimina el primer nodo que contenga el valor recibido
 // O(n)
-func (l *LinkedList[T]) Remove(value T) {
+/*func (l *LinkedList[T]) Remove(value T) {
 	if l.head == nil {
 		return // no hay nada que eliminar
 	}
@@ -109,6 +112,44 @@ func (l *LinkedList[T]) Remove(value T) {
 		}
 		current = current.next
 	}
+	l.largo--
+}
+
+func (l *LinkedList[T]) borrar(value T, position int) {
+	if l.head == nil || position < 0 {
+		return // no hay nada que eliminar
+	}
+	current := l.head
+	for position > 0 && current != nil {
+		if current.next.value == value && position == l.position {
+			current.next = current.next.next
+			position--
+		}
+		current = current.next
+	}
+
+}*/
+
+func (l *LinkedList[T]) Remove(value T, position int) error {
+	if l.head == nil || position < 0 {
+		return fmt.Errorf("La posición no es válida")
+	}
+	if position == 0 && l.head.value == value {
+		l.head = l.head.next
+		return nil
+	}
+	current := l.head
+	for position > 1 && current.next != nil {
+		current = current.next
+		position--
+	}
+	if current.next == nil || current.next.value != value {
+		return fmt.Errorf("El valor %v no se encontró en la lista", value)
+	}
+	current.next = current.next.next
+	l.largo--
+	return nil
+
 }
 
 // String devuelve una representación en cadena de la lista
@@ -162,7 +203,7 @@ func (l *LinkedList[T]) Get(position int) (T, error) {
 	current := l.head
 	for current != nil && position > 0 {
 		current = current.next
-		position--
+		position-- // se resta una posicion para que el sistema entienda que hay un lugar menos que evaluar cada vez que el for se ejecuta
 	}
 	if current == nil {
 		var t T
@@ -174,7 +215,7 @@ func (l *LinkedList[T]) Get(position int) (T, error) {
 // Size devuelve la cantidad de nodos en la lista
 // O(n)
 func (l *LinkedList[T]) Size() int {
-	if l.head == nil {
+	/*if l.head == nil {
 		return 0
 	}
 	current := l.head
@@ -183,5 +224,6 @@ func (l *LinkedList[T]) Size() int {
 		current = current.next
 		position++
 	}
-	return position
+	return position*/
+	return l.largo
 }

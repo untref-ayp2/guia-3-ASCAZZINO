@@ -18,15 +18,15 @@ func main() {
 	fmt.Println("Buscamos el numero 3")
 	fmt.Println("Se encuentra en la posicion: ", l.Search(3))
 
-	l.Remove(2)
-	l.Remove(0)
-	l.Remove(3)
+	l.Remove(3, 3)
+	//l.Remove(0)
+	//l.Remove(3)
 	fmt.Println("Buscamos el numero 3 luego de removerlo de la lista")
 	fmt.Println(l)
 	fmt.Println("Se encuentra en la posicion: ", l.Search(3))
-	l.Remove(1)
-	l.Remove(1) //No deberia hacer nada
-	l.Remove(1) //No deberia hacer nada
+	//l.Remove(1)
+	//l.Remove(1) //No deberia hacer nada
+	//l.Remove(1) //No deberia hacer nada
 	fmt.Println(l)
 
 	fmt.Println("Agregamos 0, 1 , 3, 4 y 5 al final de la lista")
@@ -41,5 +41,7 @@ func main() {
 	l.InsertAt(2, 2)
 
 	fmt.Println(l)
+
+	fmt.Print("la cantidad de elementos son: ", l.Size())
 
 }

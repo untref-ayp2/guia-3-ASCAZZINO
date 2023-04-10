@@ -17,10 +17,7 @@ func (s *slicelist) Remove(valor int) {
 	*s = append((*s)[:valor], (*s)[:valor+1]...)
 }
 
-func (s slicelist) Get(valor, posicion int) interface{} {
-	if posicion < 0 {
-		panic("la posicion no puede ser 0")
-	}
+func (s slicelist) Get(valor int) interface{} {
 
 	return s[valor]
 }
@@ -28,6 +25,13 @@ func (s slicelist) Get(valor, posicion int) interface{} {
 func (s slicelist) Len() int {
 	return len(s)
 }
+
+/*func add2ndSlice(s, s2 *slicelist) *slicelist {
+	for i := 0; i < s2.Len(); i++ {
+		*s = append(s2.Get(i))
+	}
+	return s
+}*/
 
 func main() {
 	// Crear una nueva lista
